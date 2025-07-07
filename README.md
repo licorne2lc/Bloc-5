@@ -70,7 +70,13 @@ Le tableau de bord est déployé via Streamlit dans un Espace Hugging Face :
 2. **📈 EDA Pricing**  
    Visualisation des facteurs influençant le prix journalier : carburant, voiture, connectivité, puissance moteur...
 
-3. **🔮 API Prediction**  
+3. **📉 Simulation seuil entre location**  
+   Outil d’aide à la décision pour fixer un **délai minimum entre deux locations successives** :
+
+   - Calcule le pourcentage de **locations incompatibles** selon le seuil sélectionné (en tenant compte du retard réel des précédentes locations).
+   - Affiche également le pourcentage de **retards absorbés** par ce seuil.
+        
+4. **🔮 API Prediction**  
    Formulaire pour envoyer les caractéristiques d’un véhicule et afficher la **prédiction du prix** retournée par l’API.
 
 👉 Deux liens utiles permettent également de **vérifier la disponibilité des services API** dans la sidebar du dashboard :
