@@ -1,0 +1,33 @@
+# Fichiers compilés Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Notebooks checkpoints (si tu travailles avec Jupyter)
+.ipynb_checkpoints/
+
+# Fichiers temporaires/OS
+.DS_Store
+Thumbs.db
+
+# Environnements virtuels
+venv/
+.env/
+.env
+
+# Jetons/API keys/secrets
+*.env
+*.secret
+
+# Fichiers de log
+*.log
+
+# Données (optionnel si tu veux exclure certains gros fichiers)
+*.csv
+*.xlsx
+
+# Dossier de déploiement Hugging Face
+output/
+
+# LFS pointer files si déjà versionnés
+*.lfs
