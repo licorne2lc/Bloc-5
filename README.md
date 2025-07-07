@@ -53,9 +53,7 @@ le message de disponibilité du service doit apparaitre:
 
 
 - 📄 end point predict disponible a l'url:  
-  🔗 [https://licorne2lc-get-around-api.hf.space/docs#/Prediction/predict_predict_post](https://licorne2lc-get-around-api.hf.space/docs#/Prediction/predict_predict_post)
-
-request swagger en post sur l'endpoint 
+  🔗 [https://licorne2lc-get-around-api.hf.space/docs#/Prediction/predict_predict_post](https://licorne2lc-get-around-api.hf.space/docs#/Prediction/predict_predict_post) --> request swagger en post sur l'endpoint 
 ---
 
 ## 📈 4. Dashboard interactif (Streamlit)
