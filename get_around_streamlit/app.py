@@ -23,8 +23,8 @@ except Exception:
 with st.sidebar:
     selected = option_menu(
         "Menu principal",
-        ["🏁 EDA delay", "📈 EDA pricing", "🔮 API prediction"],
-        icons=["hourglass-split", "bar-chart-line", "cpu"],
+        ["🏁 EDA delay", "📈 EDA pricing", "⏳ Seuil entre locations", "🔮 API prediction"],
+        icons=["hourglass-split", "bar-chart-line", "clock", "cpu"],
         menu_icon="cast",
         default_index=0,
     )
@@ -134,7 +134,139 @@ elif selected == "📈 EDA pricing":
     except FileNotFoundError:
         st.error("❌ Fichier CSV non trouvé : get_around_pricing_project.csv")
 
-# ========== 3. API PREDICTION ==========
+
+
+# ========== 3. SEUIL ENTRE LOCATIONS ==========
+elif selected == "⏳ Seuil entre locations":
+    st.title("⏳ Analyse du seuil entre deux locations")
+
+    # Chargement des données
+    try:
+        dataset = pd.read_excel("get_around_delay_analysis.xlsx")
+
+        def resolved_rentals(threshold, scope):
+            if scope == "connect":
+                connect_late = dataset[
+                    (dataset["delay_at_checkout_in_minutes"] > 0) &
+                    (dataset["checkin_type"] == "connect")
+                ]
+                resolved = connect_late[connect_late["delay_at_checkout_in_minutes"] <= threshold]
+                return round((len(resolved) / len(connect_late)) * 100, 2)
+            else:
+                late = dataset[dataset["delay_at_checkout_in_minutes"] > 0]
+                resolved = late[late["delay_at_checkout_in_minutes"] <= threshold]
+                return round((len(resolved) / len(late)) * 100, 2)
+
+        # Interface utilisateur
+        st.markdown("### Sélection du seuil")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            seuil = st.slider("⏱️ Seuil entre deux locations (minutes)", 0, 240, 150, step=30)
+        with col2:
+            scope = st.radio("🚗 Type de véhicules concernés", ["all", "connect"],
+                             format_func=lambda x: "Tous les véhicules" if x == "all" else "Connect uniquement")
+
+        resultat = resolved_rentals(seuil, scope)
+
+        # Calcul des locations incompatibles (intervalle entre locations trop court)
+        if scope == "connect":
+            total_short = dataset[
+                (dataset["checkin_type"] == "connect") &
+                (dataset["time_delta_with_previous_rental_in_minutes"] < seuil)
+            ]
+        else:
+            total_short = dataset[
+                dataset["time_delta_with_previous_rental_in_minutes"] < seuil
+            ]
+
+        nb_louees_non_resolues = len(total_short)
+        pourcentage_incompatibles = round((nb_louees_non_resolues / len(dataset)) * 100, 2)
+
+        # Affichage
+        st.success(f"✅ Avec un seuil de **{seuil} minutes**, environ **{resultat}%** des retards sont absorbés.")
+        st.info(f"📉 Environ **{nb_louees_non_resolues} locations** ({pourcentage_incompatibles}%) seraient incompatibles avec ce seuil.")
+
+        # Préparer les courbes
+        import plotly.graph_objects as go
+
+        seuils = list(range(0, 241, 30))
+        all_vals = [resolved_rentals(s, "all") for s in seuils]
+        connect_vals = [resolved_rentals(s, "connect") for s in seuils]
+
+        # Courbe des % incompatibles
+        if scope == "connect":
+            incompat_vals = [
+                round(len(dataset[
+                    (dataset["checkin_type"] == "connect") &
+                    (dataset["time_delta_with_previous_rental_in_minutes"] < s)
+                ]) / len(dataset) * 100, 2)
+                for s in seuils
+            ]
+        else:
+            incompat_vals = [
+                round(len(dataset[
+                    dataset["time_delta_with_previous_rental_in_minutes"] < s
+                ]) / len(dataset) * 100, 2)
+                for s in seuils
+            ]
+
+        # Création du graphique
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatter(
+            x=seuils,
+            y=all_vals,
+            name="Tous les véhicules - % retards résolus",
+            mode="lines+markers",
+            line=dict(color="blue")
+        ))
+
+        fig.add_trace(go.Scatter(
+            x=seuils,
+            y=connect_vals,
+            name="Connect uniquement - % retards résolus",
+            mode="lines+markers",
+            line=dict(color="orange")
+        ))
+
+        fig.add_trace(go.Scatter(
+            x=seuils,
+            y=incompat_vals,
+            name="% locations incompatibles",
+            mode="lines+markers",
+            line=dict(color="purple", dash="dot")
+        ))
+
+        # Ligne verticale dynamique pour le seuil sélectionné
+        fig.add_trace(go.Scatter(
+            x=[seuil],
+            y=[100],
+            mode="lines",
+            name="Seuil choisi",
+            line=dict(color="red", dash="dash")
+        ))
+
+        fig.update_layout(
+            title="Impact du seuil : retards résolus vs locations incompatibles",
+            xaxis_title="Seuil (minutes)",
+            yaxis_title="Pourcentage (%)",
+            yaxis_range=[0, 100],
+            template="simple_white"
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.markdown("""
+        ℹ️ **Conseil produit** : un seuil entre **120 et 150 minutes** permet de résoudre une part significative des retards
+        tout en limitant la perte de réservations successives.
+        """)
+
+    except FileNotFoundError:
+        st.error("❌ Fichier Excel non trouvé : get_around_delay_analysis.xlsx")
+
+
+# ========== 4. API PREDICTION ==========
 elif selected == "🔮 API prediction":
     st.title("🔮 Prédiction du prix de location")
     st.markdown("Remplis les informations suivantes pour obtenir une estimation du prix")
