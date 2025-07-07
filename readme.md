@@ -49,9 +49,10 @@ le message de disponibilité du service doit apparaitre:
 {"message":"Bienvenue sur l'API GET Around! auteur —> Jerome Moulinier","model_status":"✅ Modèle chargé avec succès"}
 
 
-- 📄 Documentation Swagger :  
+- 📄 end point predict disponible a l'url:  
   🔗 [https://licorne2lc-get-around-api.hf.space/docs#/Prediction/predict_predict_post](https://licorne2lc-get-around-api.hf.space/docs#/Prediction/predict_predict_post)
 
+request swagger en post sur l'endpoint 
 ---
 
 ## 📈 4. Dashboard interactif (Streamlit)
