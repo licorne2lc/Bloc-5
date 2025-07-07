@@ -43,8 +43,11 @@ Un **modèle de régression** a été entraîné pour prédire le prix journalie
 
 L’API permet de soumettre les caractéristiques d’un véhicule et retourne une estimation du **prix de location journalier**.
 
-- 📍 Espace Hugging Face :  
+- 📍 etat du service api prediction Hugging Face :  
   🔗 [https://huggingface.co/spaces/licorne2lc/get_around_api](https://huggingface.co/spaces/licorne2lc/get_around_api)
+le message de disponibilité du service doit apparaitre:
+{"message":"Bienvenue sur l'API GET Around! auteur —> Jerome Moulinier","model_status":"✅ Modèle chargé avec succès"}
+
 
 - 📄 Documentation Swagger :  
   🔗 [https://licorne2lc-get-around-api.hf.space/docs#/Prediction/predict_predict_post](https://licorne2lc-get-around-api.hf.space/docs#/Prediction/predict_predict_post)
