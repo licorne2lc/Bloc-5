@@ -64,7 +64,7 @@ Le tableau de bord est déployé via Streamlit dans un Espace Hugging Face :
 
 ###  Options disponibles dans la sidebar :
 
-1. **🏁 EDA Delay**  
+1. ** EDA Delay**  
    Analyse des retards, types de check-in, gravité des retards, impact sur les annulations.
 
 2. ** EDA Pricing**  
