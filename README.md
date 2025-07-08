@@ -36,7 +36,7 @@ Un second fichier CSV `get_around_pricing_project.csv` a permis d'analyser :
 ## 2. Modèle de Machine Learning
 
 Un **modèle de régression** a été entraîné pour prédire le prix journalier d’un véhicule à partir de ses caractéristiques :
-- ** DATA :** get_around_pricing_project.csv
+- **DATA :** get_around_pricing_project.csv
 - **Variables utilisées** : mileage, engine_power, fuel, car_type, etc.
 - Le modèle a été exporté et intégré dans une API FastAPI déployée sur Hugging Face.
 
