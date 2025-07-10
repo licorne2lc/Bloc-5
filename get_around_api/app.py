@@ -6,11 +6,14 @@ from joblib import load
 import os
 
 description = """
-GetAround API, designed to assist you in predicting the rental price for your car!
-Here are the available endpoints:
-* `/`: This endpoint is provided to explore the predict functionality.
-* `/predict`: This endpoint accepts a POST request with JSON input data. You can use this endpoint to make predictions by providing the necessary information about your car.
-Feel free to use the `/predict` endpoint by sending a POST request with the required JSON data to obtain accurate rental price predictions for your vehicule
+API GetAround – conçue pour vous aider à prédire le prix de location de votre voiture !
+Voici les points d’accès disponibles :
+
+/ : Cet endpoint permet d’explorer la fonctionnalité de prédiction.
+
+/predict : Cet endpoint accepte une requête POST avec des données JSON en entrée. Vous pouvez l’utiliser pour effectuer des prédictions en fournissant les informations nécessaires sur votre voiture.
+
+N’hésitez pas à utiliser l’endpoint /predict en envoyant une requête POST avec les données JSON requises pour obtenir une estimation précise du prix de location de votre véhicule.
 """
 
 tags_metadata = [
